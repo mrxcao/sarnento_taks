@@ -1,0 +1,40 @@
+{
+  "name": "sarnento_task",
+  "version": "0.0.1",
+  "description": "schedule actions to maintence the bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrxcao/sarnento_taks.git"
+  },
+  "keywords": [
+    "sarnento",
+    "discord",
+    "bot",
+    "taks",
+    "maneger"
+  ],
+  "author": "MrXcao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrxcao/sarnento_taks/issues"
+  },
+  "homepage": "https://github.com/mrxcao/sarnento_taks#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "exceljs": "^4.3.0",
+    "fs": "^0.0.1-security",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
+    "node-schedule": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "jest": "^29.6.2"
+  }
+}
