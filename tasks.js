@@ -1,5 +1,5 @@
-const taskName = require("./tasks/taskNAme.js");
+const taskName = require('./tasks/taskName');
 
-module.exports = [    
-	taskName
+module.exports = [
+  taskName,
 ];
