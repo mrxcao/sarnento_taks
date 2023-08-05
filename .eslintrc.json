@@ -12,6 +12,8 @@
     },
     "rules": {
         "linebreak-style": 0,
-        "no-console":"off"
+        "no-console":"off",
+        "no-underscore-dangle":"off",
+        "no-unused-expressions":"off"
     }
 }

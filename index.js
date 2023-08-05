@@ -4,6 +4,7 @@ require('dotenv').config({
 });
 const schedule = require('node-schedule');
 const tasklist = require('./tasks');
+const mongodb = require('./modules/DB/mongo/connect');
 
 const run = async () => {
   /*
@@ -11,7 +12,7 @@ const run = async () => {
     mongo.connect();
   }
   */
-
+  await mongodb.connect();
   let c = 1;
   // eslint-disable-next-line no-restricted-syntax
   for (const task of tasklist) {

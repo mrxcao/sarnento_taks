@@ -1,5 +1,5 @@
-const taskName = require('./tasks/taskName');
+const megasena = require('./tasks/megasena');
 
 module.exports = [
-  taskName,
+  megasena,
 ];
