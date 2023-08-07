@@ -1,13 +1,13 @@
 const model = require('../models/megasena.js');
 
-class UsersController {
+class MegasenaController {
   async store(req) {
-    return await model.create(req);
+    return model.create(req);
     // return res.status(200).json(ret);
   }
 
   async index() {
-    return await model.find({ });
+    return model.find({ });
     // return res.status(200).json(ret);
   }
 
@@ -28,12 +28,13 @@ class UsersController {
       req.data.substring(3, 5)}-${
       req.data.substring(0, 2)}`);
 
-	  const dataProxConcurso = new Date(`${req.dataProxConcurso.substring(6, 10)}-${
-      req.dataProxConcurso.substring(3, 5)}-${
-      req.dataProxConcurso.substring(0, 2)}`);
+    const dataProxConcurso = req.dataProxConcurso
+      ? new Date(`${req.dataProxConcurso.substring(6, 10)}-${
+        req.dataProxConcurso.substring(3, 5)}-${
+        req.dataProxConcurso.substring(0, 2)}`) : null;
 
-	  const premiacoes = [];
-	  for (const prem of req.premiacoes) {
+    const premiacoes = [];
+    for (const prem of req.premiacoes) {
       let acertos = 0;
       switch (prem.acertos) {
         case 'Sena':
@@ -49,14 +50,14 @@ class UsersController {
           break;
       }
 
-	  const premioVal = prem.premio == '-' ? 0
-	  : parseFloat(prem.premio.replace('.', '').replace(',', '.'));
+      const premioVal = prem.premio == '-' ? 0
+        : parseFloat(prem.premio.replace('.', '').replace(',', '.'));
       premiacoes.push(
         { acertos, vencedores: prem.vencedores, premio: premioVal },
       );
-	  }
+    }
 
-    const dezenas = [parseInt(req.dezenas[0]),	parseInt(req.dezenas[1]),
+    const dezenas = [parseInt(req.dezenas[0]), parseInt(req.dezenas[1]),
       parseInt(req.dezenas[2]),	parseInt(req.dezenas[3]),
       parseInt(req.dezenas[4]),	parseInt(req.dezenas[5])];
 
@@ -72,7 +73,6 @@ class UsersController {
       proxConcurso: req.proxConcurso,
 
     };
-    console.log('data', data);
 
     const query = { concurso: req.concurso };
     const ret = model.findOneAndUpdate(query, data, { upsert: true });
@@ -81,26 +81,8 @@ class UsersController {
   }
 
   async get(id) {
-    return await model.findOne({ id });
-  }
-
-  async login(req) {
-    const data = {
-      login: req.login,
-      password: req.password,
-    };
-
-    const usr = await model.find({ login: data.login });
-    if (usr.length > 0) {
-      if (usr[0].password == data.password) {
-        return usr[0];
-      }
-
-      return false;
-    }
-
-    return false;
+    return model.findOne({ id });
   }
 }
 
-module.exports = new UsersController();
+module.exports = new MegasenaController();
