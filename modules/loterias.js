@@ -24,7 +24,7 @@ const pegaQuantidade = (t, iniciaEm) => {
 const usarScrap = async (debugMode = false) => {
   let c = 0;
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ['--disable-setuid-sandbox'],
     ignoreHTTPSErrors: true,
   });
