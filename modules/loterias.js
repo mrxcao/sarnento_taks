@@ -24,16 +24,13 @@ const pegaQuantidade = (t, iniciaEm) => {
 const usarScrap = async (debugMode = false) => {
   let c = 0;
   let config;
-  console.log('process.env.NODE_EN', process.env.NODE_ENV);
   if (process.env.NODE_ENV === 'production') {
-    console.log('1', 1);
     config = {
       executablePath: '/usr/bin/chromium-browser',
-      headless: true,
+      headless: false,
       args: ['--no-sandbox', '--disable-gpu'],
     };
   } else {
-    console.log('1', 2);
     config = {
       headless: false,
       args: ['--disable-setuid-sandbox'],
