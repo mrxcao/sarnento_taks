@@ -23,11 +23,25 @@ const pegaQuantidade = (t, iniciaEm) => {
 
 const usarScrap = async (debugMode = false) => {
   let c = 0;
-  const browser = await puppeteer.launch({
-    headless: !debugMode,
-    args: ['--disable-setuid-sandbox'],
-    ignoreHTTPSErrors: true,
-  });
+  let config;
+  console.log('process.env.NODE_EN', process.env.NODE_ENV);
+  if (process.env.NODE_ENV === 'production') {
+    console.log('1', 1);
+    config = {
+      executablePath: '/usr/bin/chromium-browser',
+      headless: true,
+      args: ['--no-sandbox', '--disable-gpu'],
+    };
+  } else {
+    console.log('1', 2);
+    config = {
+      headless: false,
+      args: ['--disable-setuid-sandbox'],
+      ignoreHTTPSErrors: true,
+    };
+  }
+
+  const browser = await puppeteer.launch(config);
   const page = await browser.newPage();
   await page.goto('https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx');
   // const textSelector = await page.$$('.resultado-loteria');
@@ -146,6 +160,7 @@ const usarScrap = async (debugMode = false) => {
   await browser.close();
 
   const res = await megasenaCtrl.upSert(req);
+  debugMode ? console.log('res', res) : true;
   return res;
 };
 
