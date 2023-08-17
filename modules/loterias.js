@@ -27,7 +27,7 @@ const usarScrap = async (debugMode = false) => {
   if (process.env.NODE_ENV === 'production') {
     config = {
       executablePath: '/usr/bin/chromium-browser',
-      headless: false,
+      headless: true,
       args: ['--no-sandbox', '--disable-gpu'],
     };
   } else {
