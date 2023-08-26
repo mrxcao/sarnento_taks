@@ -2,12 +2,8 @@ const puppeteer = require('puppeteer');
 const axios = require('axios');
 const megasenaCtrl = require('./DB/mongo/controllers/megasena');
 
-function delay(sec) {
-  return new Promise((resolve) => {
-    console.log('aqui');
-    setTimeout(resolve, sec * 1000);
-  });
-}
+// eslint-disable-next-line no-unused-vars
+const tools = require('./tools');
 
 const pegaQuantidade = (t, iniciaEm) => {
   let res = null;
@@ -45,10 +41,9 @@ const usarScrap = async (debugMode = false) => {
 
   /*
   console.log('espera para pegar outro concurso');
-  await delay(10);
+  await tools.delay(10);
   console.log('começou');
 */
-
   let concurso = null;
   let data;
   const concursoSel = await page.$$('.ng-binding');
@@ -163,12 +158,12 @@ const usarScrap = async (debugMode = false) => {
 
 const primeiraCarga = async (debugMode = false) => {
   const url = 'https://loteriascaixa-api.herokuapp.com/api/mega-sena/';
-  for (let n = 1; n <= 2617; n++) {
+  const concursoAtual = 2617;
+  for (let n = 1; n <= concursoAtual; n++) {
     const header = {
       method: 'get',
       url: url + n,
     };
-    console.log('n', n);
     const response = await axios(header);
     const { data } = response;
     debugMode ? console.log('data', data.data) : true;
@@ -177,6 +172,7 @@ const primeiraCarga = async (debugMode = false) => {
   return true;
 };
 
+/*
 const usarAPI = async (debugMode = false) => {
   const url = 'https://loteriascaixa-api.herokuapp.com/api/mega-sena/latest/';
   const header = {
@@ -189,9 +185,10 @@ const usarAPI = async (debugMode = false) => {
   const res = await megasenaCtrl.upSert(data);
   return res;
 };
-
-const capturarMegaSena = async (debugMode = false) =>
-  // usarAPI(debugMode)
-  usarScrap(debugMode);
+*/
+const capturarMegaSena = async (debugMode = false) => {
+//  usarAPI(debugMode);
+  await usarScrap(debugMode);
+};
 
 module.exports = { capturarMegaSena, primeiraCarga };
