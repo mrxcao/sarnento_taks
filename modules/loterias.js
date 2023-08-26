@@ -1,7 +1,6 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 const megasenaCtrl = require('./DB/mongo/controllers/megasena');
-
 // eslint-disable-next-line no-unused-vars
 const tools = require('./tools');
 
