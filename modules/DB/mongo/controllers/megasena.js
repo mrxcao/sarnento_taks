@@ -1,4 +1,4 @@
-const model = require('../models/megasena.js');
+const model = require('../models/megasena');
 
 class MegasenaController {
   async store(req) {
@@ -58,8 +58,8 @@ class MegasenaController {
     }
 
     const dezenas = [parseInt(req.dezenas[0]), parseInt(req.dezenas[1]),
-      parseInt(req.dezenas[2]),	parseInt(req.dezenas[3]),
-      parseInt(req.dezenas[4]),	parseInt(req.dezenas[5])];
+      parseInt(req.dezenas[2]), parseInt(req.dezenas[3]),
+      parseInt(req.dezenas[4]), parseInt(req.dezenas[5])];
 
     const data = {
       concurso: req.concurso,
