@@ -16,7 +16,7 @@ const pegaQuantidade = (t, iniciaEm) => {
   return res.trim();
 };
 
-const usarScrap = async (debugMode = false) => {
+const usarScrap = async (outrosConcursos = false, debugMode = false) => {
   let c = 0;
   let config;
   if (process.env.NODE_ENV === 'production') {
@@ -38,11 +38,12 @@ const usarScrap = async (debugMode = false) => {
   await page.goto('https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx');
   // const textSelector = await page.$$('.resultado-loteria');
 
-  /*
-  console.log('espera para pegar outro concurso');
-  await tools.delay(10);
-  console.log('começou');
-*/
+  if (outrosConcursos) {
+    console.log('espera para pegar outro concurso');
+    await tools.delay(10);
+    console.log('começou');
+  }
+
   let concurso = null;
   let data;
   const concursoSel = await page.$$('.ng-binding');
@@ -185,9 +186,9 @@ const usarAPI = async (debugMode = false) => {
   return res;
 };
 */
-const capturarMegaSena = async (debugMode = false) => {
+const capturarMegaSena = async (outrosConcursos = false, debugMode = false) => {
 //  usarAPI(debugMode);
-  await usarScrap(debugMode);
+  await usarScrap(outrosConcursos, debugMode);
 };
 
 module.exports = { capturarMegaSena, primeiraCarga };

@@ -7,7 +7,7 @@ module.exports = {
   callback: async () => {
     const debugMode = process.env.DEBUG === 'true';
     console.log(new Date(), name, 'inicio');
-    await loterias.capturarMegaSena(debugMode);
+    await loterias.capturarMegaSena(false, debugMode);
     console.log(new Date(), name, 'fim');
   },
 };

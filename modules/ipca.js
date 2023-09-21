@@ -12,7 +12,7 @@ const capturarIPCA = async (debugMode = false) => {
   debugMode ? console.log('data', data) : true;
   for (const d of data) {
     const res = await ipcaCtrl.upSert(d);
-    debugMode ? console.log('res', d, res) : true;
+    // debugMode ? console.log('res', d, res) : true;
   }
   return true;
 };
