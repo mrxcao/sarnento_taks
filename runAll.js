@@ -5,7 +5,7 @@ require('dotenv').config({
 });
 const mongodb = require('./modules/DB/mongo/connect');
 
-mongodb.connect();
+await mongodb.connect();
 
 tasks.forEach(async (task) => {
   await task.callback();
