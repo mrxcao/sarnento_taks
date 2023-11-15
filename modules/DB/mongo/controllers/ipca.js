@@ -1,3 +1,4 @@
+const moment = require('moment');
 const model = require('../models/ipca');
 
 class IpcaController {
@@ -25,21 +26,24 @@ class IpcaController {
 
   async upSert(req) {
     try {
-      if (req || req != '<') {
-        const data = new Date(`${req.data.substring(6, 10)}-${
-          req.data.substring(3, 5)}-${
-          req.data.substring(0, 2)}`);
+      const ano = req.data.substring(6, 10);
+      if (ano == moment().year() || ano == moment().year() - 1) {
+        if (req || req != '<') {
+          const data = new Date(`${req.data.substring(6, 10)}-${
+            req.data.substring(3, 5)}-${
+            req.data.substring(0, 2)}`);
 
-        const valor = parseFloat(req.valor);
+          const valor = parseFloat(req.valor);
 
-        const set = {
-          data,
-          valor,
-        };
+          const set = {
+            data,
+            valor,
+          };
 
-        const query = { data };
-        const ret = model.findOneAndUpdate(query, set, { upsert: true });
-        return ret;
+          const query = { data };
+          const ret = model.findOneAndUpdate(query, set, { upsert: true });
+          return ret;
+        }
       }
       return false;
     } catch (error) {
