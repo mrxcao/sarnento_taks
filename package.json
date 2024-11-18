@@ -33,7 +33,7 @@
     "moment-timezone": "^0.5.43",
     "mongoose": "^7.4.2",
     "node-schedule": "^2.1.1",
-    "puppeteer": "^21.0.2"
+    "puppeteer": "^23.8.0"
   },
   "devDependencies": {
     "eslint": "^8.46.0",

@@ -83,6 +83,14 @@ class MegasenaController {
   async get(id) {
     return model.findOne({ id });
   }
+
+  async prcouraBuraco() {
+    const ret = model.aggregate([{ $project: { _id: 0, concurso: 1 } },
+      { $project: { _id: 0, concurso: 1 } },
+      { $sort: { concurso: -1 } },
+    ]);
+    return ret;
+  }
 }
 
 module.exports = new MegasenaController();

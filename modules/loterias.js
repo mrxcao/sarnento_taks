@@ -4,6 +4,8 @@ const megasenaCtrl = require('./DB/mongo/controllers/megasena');
 // eslint-disable-next-line no-unused-vars
 const tools = require('./tools');
 
+debugMode = true;
+
 const pegaQuantidade = (t, iniciaEm) => {
   let res = null;
   let c = 0;
@@ -16,7 +18,7 @@ const pegaQuantidade = (t, iniciaEm) => {
   return res.trim();
 };
 
-const usarScrap = async (outrosConcursos = false, debugMode = false) => {
+const usarScrap = async (concurso_ = null) => {
   let c = 0;
   let config;
   if (process.env.NODE_ENV === 'production') {
@@ -34,29 +36,31 @@ const usarScrap = async (outrosConcursos = false, debugMode = false) => {
   }
 
   const browser = await puppeteer.launch(config);
-  const page = await browser.newPage();
+  const [page] = await browser.pages();
   await page.goto('https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx');
   // const textSelector = await page.$$('.resultado-loteria');
-
-  if (outrosConcursos) {
-    console.log('espera para pegar outro concurso');
-    await tools.delay(10);
-    console.log('começou');
-  }
-
+  await tools.delay(0.1);
+  let text = null;
   let concurso = null;
-  let data;
-  const concursoSel = await page.$$('.ng-binding');
-  c = 0;
-  for (const sel of concursoSel) {
-    const t = await sel?.evaluate((el) => el.textContent);
-    if (c === 18) {
-      concurso = parseInt(t.substring(8, 14));
-      data = t.substring(15, 25);
-      // console.log(c, 't', t, concurso, data);
+  text = await page.$eval(
+    '#wp_resultados > div.content-section.section-text.with-box.no-margin-bottom > div > h2 > span',
+    (el) => el.textContent.trim(),
+  );
+  concurso = parseInt(text.substring(9, 13).trim());
+  if (concurso_) {
+    // await page.type('#buscaConcurso', concurso_);
+    while (concurso != concurso_) {
+      console.log('buscando ... ', concurso, concurso_);
+      await page.click('#wp_resultados > div.content-section.section-text.with-box.no-margin-bottom > div > div.nav-results > ul > li:nth-child(2) > a');
+      await tools.delay(2);
+      text = await page.$eval(
+        '#wp_resultados > div.content-section.section-text.with-box.no-margin-bottom > div > h2 > span',
+        (el) => el.textContent.trim(),
+      );
+      concurso = parseInt(text.substring(9, 13).trim());
     }
-    c++;
   }
+  const data = text.substring(15, 25);
 
   let acumulou = false;
   const acumulouSel = await page.$$('[ng-show="resultado.acumulado"]');
@@ -148,11 +152,11 @@ const usarScrap = async (outrosConcursos = false, debugMode = false) => {
   };
 
   // await page.waitForNavigation();
-
+  // console.log('req', req);
   await browser.close();
-
+  // return true;
   const res = await megasenaCtrl.upSert(req);
-  debugMode ? console.log('res', res) : true;
+  // debugMode ? console.log('res', res) : true;
   return res;
 };
 
@@ -171,6 +175,24 @@ const primeiraCarga = async (debugMode = false) => {
   }
   return true;
 };
+const prcouraBuraco = async () => {
+  const NaoExistem = [2796];
+  const data = await megasenaCtrl.prcouraBuraco();
+  if (data) {
+    let concursoEsperado = data[0].concurso;
+    for (const d of data) {
+      const concursoAtual = d.concurso;
+      console.log('concursoAtual', concursoAtual, 'concursoEsperado', concursoEsperado);
+      if (concursoAtual != concursoEsperado && !NaoExistem.includes(concursoEsperado)) {
+        await usarScrap(concursoEsperado);
+      }
+      concursoEsperado -= 1;
+      while (NaoExistem.includes(concursoEsperado)) {
+        concursoEsperado -= 1;
+      }
+    }
+  }
+};
 
 /*
 const usarAPI = async (debugMode = false) => {
@@ -186,9 +208,10 @@ const usarAPI = async (debugMode = false) => {
   return res;
 };
 */
-const capturarMegaSena = async (outrosConcursos = false, debugMode = false) => {
+const capturarMegaSena = async () => {
 //  usarAPI(debugMode);
-  await usarScrap(outrosConcursos, debugMode);
+  await usarScrap();
+  await prcouraBuraco();
 };
 
 module.exports = { capturarMegaSena, primeiraCarga };
