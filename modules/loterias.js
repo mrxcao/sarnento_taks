@@ -182,7 +182,7 @@ const prcouraBuraco = async () => {
     let concursoEsperado = data[0].concurso;
     for (const d of data) {
       const concursoAtual = d.concurso;
-      console.log('concursoAtual', concursoAtual, 'concursoEsperado', concursoEsperado);
+      // console.log('concursoAtual', concursoAtual, 'concursoEsperado', concursoEsperado);
       if (concursoAtual != concursoEsperado && !NaoExistem.includes(concursoEsperado)) {
         await usarScrap(concursoEsperado);
       }
