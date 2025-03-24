@@ -4,7 +4,7 @@ const megasenaCtrl = require('./DB/mongo/controllers/megasena');
 // eslint-disable-next-line no-unused-vars
 const tools = require('./tools');
 
-debugMode = true;
+// const debugMode = true;
 
 const pegaQuantidade = (t, iniciaEm) => {
   let res = null;
@@ -23,9 +23,10 @@ const usarScrap = async (concurso_ = null) => {
   let config;
   if (process.env.NODE_ENV === 'production') {
     config = {
-      executablePath: '/usr/bin/chromium-browser',
+      // executablePath: '/usr/bin/chromium-browser',
+      executablePath: '/usr/bin/chromium',
       headless: true,
-      args: ['--no-sandbox', '--disable-gpu'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     };
   } else {
     config = {
