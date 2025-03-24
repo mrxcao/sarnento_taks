@@ -4,7 +4,7 @@ const megasenaCtrl = require('./DB/mongo/controllers/megasena');
 // eslint-disable-next-line no-unused-vars
 const tools = require('./tools');
 
-const debugMode = false;
+const debugMode = process.env.NODE_ENV == 'development';
 /*
 const config = {
   // executablePath: '/usr/bin/chromium-browser',
@@ -14,7 +14,7 @@ const config = {
 };
 */
 const config = {
-  headless: false,
+  headless: !debugMode,
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
 };
 
