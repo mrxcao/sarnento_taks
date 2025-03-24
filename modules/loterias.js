@@ -39,6 +39,9 @@ const usarScrap = async (concurso_ = null) => {
   await tools.delay(0.1);
   let text = null;
   let concurso = null;
+
+  await page.waitForSelector('#wp_resultados > div.content-section.section-text.with-box.no-margin-bottom > div > h2 > span', { timeout: 10000 });
+
   text = await page.$eval(
     '#wp_resultados > div.content-section.section-text.with-box.no-margin-bottom > div > h2 > span',
     (el) => el.textContent.trim(),
