@@ -8,7 +8,7 @@ const debugMode = false;
 const config = {
   // executablePath: '/usr/bin/chromium-browser',
   executablePath: '/usr/bin/chromium',
-  headless: true,
+  headless: false, // true
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
 };
 const pegaQuantidade = (t, iniciaEm) => {
