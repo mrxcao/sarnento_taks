@@ -31,7 +31,8 @@ const pegaQuantidade = (t, iniciaEm) => {
 };
 
 const wait = async (page) => {
-  await page.waitForTimeout(3000); // Espera um pouco antes de pegar o HTML
+  // await page.waitForTimeout(3000); // Espera um pouco antes de pegar o HTML
+  await tools.delay(debugMode ? 0.1 : 3000);
   const pageContent = await page.content();
   console.log(pageContent);
 };
@@ -41,7 +42,7 @@ const usarScrap = async (concurso_ = null) => {
   const [page] = await browser.pages();
   await page.goto('https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx');
   // const textSelector = await page.$$('.resultado-loteria');
-  await tools.delay(0.1);
+
   let text = null;
   let concurso = null;
 
