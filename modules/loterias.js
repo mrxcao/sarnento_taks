@@ -4,8 +4,13 @@ const megasenaCtrl = require('./DB/mongo/controllers/megasena');
 // eslint-disable-next-line no-unused-vars
 const tools = require('./tools');
 
-// const debugMode = true;
-
+const debugMode = false;
+const config = {
+  // executablePath: '/usr/bin/chromium-browser',
+  executablePath: '/usr/bin/chromium',
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+};
 const pegaQuantidade = (t, iniciaEm) => {
   let res = null;
   let c = 0;
@@ -20,21 +25,6 @@ const pegaQuantidade = (t, iniciaEm) => {
 
 const usarScrap = async (concurso_ = null) => {
   let c = 0;
-  let config;
-  if (process.env.NODE_ENV === 'production') {
-    config = {
-      // executablePath: '/usr/bin/chromium-browser',
-      executablePath: '/usr/bin/chromium',
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    };
-  } else {
-    config = {
-      headless: false,
-      args: ['--disable-setuid-sandbox'],
-      ignoreHTTPSErrors: true,
-    };
-  }
 
   const browser = await puppeteer.launch(config);
   const [page] = await browser.pages();
@@ -161,7 +151,7 @@ const usarScrap = async (concurso_ = null) => {
   return res;
 };
 
-const primeiraCarga = async (debugMode = false) => {
+const primeiraCarga = async () => {
   const url = 'https://loteriascaixa-api.herokuapp.com/api/mega-sena/';
   const concursoAtual = 2617;
   for (let n = 1; n <= concursoAtual; n++) {
