@@ -30,6 +30,11 @@ const pegaQuantidade = (t, iniciaEm) => {
   return res.trim();
 };
 
+const wait = async (page) => {
+  await page.waitForTimeout(3000); // Espera um pouco antes de pegar o HTML
+  const pageContent = await page.content();
+  console.log(pageContent);
+};
 const usarScrap = async (concurso_ = null) => {
   let c = 0;
   const browser = await puppeteer.launch(config);
@@ -39,6 +44,8 @@ const usarScrap = async (concurso_ = null) => {
   await tools.delay(0.1);
   let text = null;
   let concurso = null;
+
+  await wait(page);
 
   await page.waitForSelector('#wp_resultados > div.content-section.section-text.with-box.no-margin-bottom > div > h2 > span', { timeout: 10000 });
 
