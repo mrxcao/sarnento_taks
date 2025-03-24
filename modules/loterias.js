@@ -32,9 +32,7 @@ const pegaQuantidade = (t, iniciaEm) => {
 
 const wait = async (page) => {
   // await page.waitForTimeout(3000); // Espera um pouco antes de pegar o HTML
-  console.log('1', 1);
-  await tools.delay(debugMode ? 0.1 : 300);
-  console.log('1', 2);
+  await tools.delay(debugMode ? 0.1 : 30);
   const pageContent = await page.content();
   console.log(pageContent);
 };
