@@ -1,16 +1,23 @@
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const axios = require('axios');
 const megasenaCtrl = require('./DB/mongo/controllers/megasena');
 // eslint-disable-next-line no-unused-vars
 const tools = require('./tools');
 
 const debugMode = false;
+/*
 const config = {
   // executablePath: '/usr/bin/chromium-browser',
-  executablePath: '/usr/bin/chromium',
-  headless: false, // true
+  // executablePath: '/usr/bin/chromium',
+  headless: true, // true
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
 };
+*/
+const config = {
+  headless: false,
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+};
+
 const pegaQuantidade = (t, iniciaEm) => {
   let res = null;
   let c = 0;
@@ -25,7 +32,6 @@ const pegaQuantidade = (t, iniciaEm) => {
 
 const usarScrap = async (concurso_ = null) => {
   let c = 0;
-
   const browser = await puppeteer.launch(config);
   const [page] = await browser.pages();
   await page.goto('https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx');
